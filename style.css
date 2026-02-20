@@ -1,0 +1,289 @@
+/* 全局重置与基础设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* 推荐使用具有传统文学感的衬线字体 */
+    font-family: 'Noto Serif SC', 'SimSun', 'Songti SC', serif;
+    background-color: #080808; /* 极深的暗黑背景 */
+    color: #e0e0e0;
+    line-height: 1.8;
+}
+
+/* 颜色变量定义 */
+:root {
+    --gold: #d4af37;        /* 金属金 */
+    --gold-dim: #997a00;    /* 暗金 */
+    --crimson: #8b0000;     /* 血液与烈火的深红 */
+    --black-bg: #111111;    /* 卡片背景黑 */
+}
+
+/* --- 导航栏 --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: rgba(8, 8, 8, 0.9);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    border-bottom: 1px solid #222;
+}
+
+.navbar .logo {
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+/* --- 首屏主视觉 --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,1)),
+                /* 你可以在这里替换为真实的金阁寺或火焰的暗色调背景图 */
+                url('https://images.unsplash.com/photo-1590253459174-27515d185c72?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+}
+
+.hero-content {
+    animation: fadeIn 2s ease-in-out;
+}
+
+.title {
+    font-size: 5rem;
+    color: var(--gold);
+    letter-spacing: 1.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 1.5rem; /* 补偿 letter-spacing 导致的居中偏移 */
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3); /* 金色幽光 */
+}
+
+.subtitle {
+    color: #666;
+    letter-spacing: 5px;
+    margin-bottom: 3rem;
+    font-family: sans-serif;
+    text-transform: uppercase;
+}
+
+.quote {
+    font-size: 1.5rem;
+    color: #ccc;
+    font-style: italic;
+    border-left: 2px solid var(--crimson);
+    padding-left: 1rem;
+    display: inline-block;
+}
+
+/* --- 内容区域 --- */
+.section {
+    padding: 6rem 10%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 4rem;
+    letter-spacing: 3px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--crimson);
+    margin: 1rem auto 0;
+}
+
+.content-box {
+    background-color: var(--black-bg);
+    padding: 3rem;
+    border: 1px solid #333;
+    border-left: 4px solid var(--gold-dim);
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+.content-box p {
+    margin-bottom: 1.5rem;
+}
+
+/* --- 卡片布局 (核心意象) --- */
+.cards-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 280px;
+    background-color: var(--black-bg);
+    padding: 2.5rem 2rem;
+    border: 1px solid #222;
+    transition: transform 0.4s, border-color 0.4s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.05);
+}
+
+.card h3 {
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    color: #999;
+    font-size: 0.95rem;
+}
+
+/* --- 页脚 --- */
+footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #050505;
+    border-top: 1px solid #222;
+}
+
+footer p:first-child {
+    color: var(--gold-dim);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+footer p:last-child {
+    color: #444;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+}
+
+/* 简单的渐显动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .title { font-size: 3rem; letter-spacing: 0.5rem; margin-left: 0.5rem; }
+    .nav-links { display: none; /* 移动端暂时隐藏导航，需配合JS实现汉堡菜单 */ }
+    .quote { font-size: 1.2rem; }
+    .cards-container { flex-direction: column; }
+}
+
+/* =========================================
+   文章详情页专属样式 (Article Page)
+   ========================================= */
+
+.article-page {
+    /* 背景比首页稍微再纯粹一点的黑，适合沉浸阅读 */
+    background-color: #050505; 
+}
+
+.navbar.minimalist {
+    background: transparent; /* 去除毛玻璃背景，更加极简 */
+    border-bottom: none;
+    padding: 2rem 10%;
+}
+
+.back-link {
+    color: var(--gold-dim);
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.article-container {
+    max-width: 760px; /* 限制阅读宽度，避免视线左右扫视过长疲劳 */
+    margin: 0 auto;
+    padding: 4rem 2rem 8rem;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.article-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid var(--border-dark);
+    padding-bottom: 2.5rem;
+}
+
+.article-title {
+    color: var(--gold);
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    letter-spacing: 2px;
+}
+
+.article-content {
+    color: #ccc;
+    font-size: 1.15rem; /* 字号比首页正文略大 */
+    line-height: 2.2;   /* 增大行距，呼吸感更强 */
+    text-align: justify; /* 两端对齐，排版更像实体书 */
+}
+
+.article-content p {
+    margin-bottom: 2rem; /* 段落之间的间距 */
+}
+.navbar.minimalist {
+    background: transparent; 
+    border-bottom: none;
+    padding: 2rem 10%;
+    backdrop-filter: none;         /* 修复1：彻底关闭毛玻璃模糊效果 */
+    -webkit-backdrop-filter: none; /* 兼容 Safari 浏览器 */
+    position: absolute;            /* 修复2：改为绝对定位，让它跟随页面滚动，不再悬浮在顶部遮挡正文 */
+}
+
+blockquote {
+  border-left: 5px solid #d2b48c; /* 偏暖一点 */
+  padding-left: 18px;
+  margin: 25px 0;
+  font-style: italic;
+  color: #666;
+  background: rgba(0,0,0,0.02);
+}
