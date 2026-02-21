@@ -152,13 +152,19 @@ body {
     text-transform: uppercase;
 }
 
+/* --- 首屏引言排版优化 --- */
 .quote {
-    font-size: 1.5rem;
-    color: #ccc;
+    font-size: 1.1rem;          /* 字体大小稍微收敛一点，显得更精致 */
+    color: #999;                /* 颜色稍微调暗一点，不喧宾夺主 */
     font-style: italic;
-    border-left: 2px solid var(--crimson);
-    padding-left: 1rem;
-    display: inline-block;
+    border-left: 2px solid var(--accent-dim); /* 左侧修饰线 */
+    padding-left: 1.5rem;       /* 文字离左边线的距离加大 */
+    
+    /* 核心修改部分 */
+    max-width: 700px;           /* 限制最大宽度，绝对不允许铺满屏幕！ */
+    margin: 0 auto;             /* 保证这个文字块在屏幕正中央 */
+    line-height: 2.2;           /* 拉大行距，增加字里行间的呼吸感 */
+    text-align: justify;        /* 文字两端对齐，像真正的出版物排版 */
 }
 
 /* --- 内容区域 --- */
