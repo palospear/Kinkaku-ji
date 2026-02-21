@@ -152,29 +152,41 @@ body {
     text-transform: uppercase;
 }
 
-/* --- 首屏引言排版优化 --- */
+/* --- 首屏引言排版优化 (终极版) --- */
 .quote {
+    display: block; /* 核心修复：强制转为块级元素，否则无法居中 */
+    box-sizing: border-box; /* 确保 padding 不会额外撑宽屏幕 */
+    
+    /* 增加苹果设备的优雅宋体保底 */
+    font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif; 
+    
     font-size: 1.1rem;
     color: #999;
     font-style: italic;
     border-left: 2px solid #8b0000; 
     padding-left: 1.5rem;
     
-    /* 核心修改：增加 90% 的宽度，让它在任何屏幕左右都有呼吸留白 */
-    width: 90%; 
+    width: 85%; /* 电脑端稍微收敛 */
     max-width: 700px;
     margin: 0 auto;
     line-height: 2.2;
     text-align: justify;
 }
 
-/* ▼ 新增：针对手机端的专属微调 ▼ */
+/* ▼ 针对手机端的专属微调 ▼ */
 @media (max-width: 768px) {
+    .hero-content {
+        width: 100%;
+        padding: 0 5%; /* 给整个首屏内容加上左右安全距离 */
+        box-sizing: border-box;
+    }
+
     .quote {
-        font-size: 0.95rem;     /* 手机上字号稍微缩小，显得精致 */
+        width: 100%;            /* 在安全距离内铺满 */
+        font-size: 0.9rem;      /* 手机上字号再稍微缩小一点，显得精致 */
         padding-left: 1rem;     /* 竖线离文字近一点 */
-        line-height: 2;         /* 行距稍微收敛 */
-        text-align: left;       /* 重点：手机上强制取消两端对齐，改为左对齐，防止字间距撕裂 */
+        line-height: 1.9;       /* 收敛行距，避免占据整个屏幕 */
+        text-align: left;       /* 强制左对齐，解决字间距被撕裂的问题 */
     }
 }
 
