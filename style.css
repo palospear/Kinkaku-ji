@@ -153,20 +153,29 @@ body {
 }
 
 /* --- 首屏引言排版优化 --- */
-/* --- 首屏引言排版优化 --- */
 .quote {
     font-size: 1.1rem;
     color: #999;
     font-style: italic;
-    
-    /* 核心修改：将修饰线强制改为象征烈火的深红，与整体的冷色调形成高级对比 */
     border-left: 2px solid #8b0000; 
-    
     padding-left: 1.5rem;
-    max-width: 700px;     /* 保持宽度限制，拒绝铺满屏幕 */
+    
+    /* 核心修改：增加 90% 的宽度，让它在任何屏幕左右都有呼吸留白 */
+    width: 90%; 
+    max-width: 700px;
     margin: 0 auto;
     line-height: 2.2;
     text-align: justify;
+}
+
+/* ▼ 新增：针对手机端的专属微调 ▼ */
+@media (max-width: 768px) {
+    .quote {
+        font-size: 0.95rem;     /* 手机上字号稍微缩小，显得精致 */
+        padding-left: 1rem;     /* 竖线离文字近一点 */
+        line-height: 2;         /* 行距稍微收敛 */
+        text-align: left;       /* 重点：手机上强制取消两端对齐，改为左对齐，防止字间距撕裂 */
+    }
 }
 
 /* --- 内容区域 --- */
