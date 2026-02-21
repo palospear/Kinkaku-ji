@@ -4,7 +4,65 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* --- 自定义高级滚动条 --- */
+::-webkit-scrollbar {
+    width: 6px; /* 极细的滚动条 */
+}
 
+::-webkit-scrollbar-track {
+    background: #080808; /* 轨道融入黑色背景 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222; /* 默认是非常低调的深灰 */
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-dim); /* 鼠标放上去时，亮起我们的主题灰蓝色 */
+}
+/* --- 全局颜色变量重置 (夜幽与秘色版) --- */
+/* --- 全局颜色变量重置 (改良版：霜夜与薄花) --- */
+:root {
+    /* 薄花色：明度提升的灰蓝色，确保在黑底上清晰可见，又带有清冷的旧书卷气 */
+    --accent-dim: #5c849e;    
+    
+    /* 白群：悬浮时泛起如霜雪般明亮的冷色荧光 */
+    --accent-glow: #a3cbe0;   
+    
+    --black-bg: #111111;    
+    --border-dark: #222;
+}
+/* --- 链接与交互样式 --- */
+a {
+    text-decoration: none;
+    color: var(--accent-dim); /* 默认呈现深邃的夜蓝 */
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+a:hover {
+    color: var(--accent-glow); /* 悬浮时泛起月光般的灰蓝 */
+    text-shadow: 0 0 12px rgba(140, 180, 196, 0.4); /* 清冷的蓝色光晕 */
+}
+
+a.album-card, a.post-card {
+    color: inherit; 
+}
+
+/* （可选）顺手把标题修饰线和高亮文字也统一 */
+.theme-title {
+    border-left: 3px solid var(--accent-dim);
+}
+.view-text {
+    color: var(--accent-glow);
+    border-bottom: 1px solid rgba(140, 180, 196, 0.3);
+}
+.album-card:hover .view-text {
+    border-bottom-color: var(--accent-glow);
+    text-shadow: 0 0 15px rgba(140, 180, 196, 0.4);
+}
 body {
     /* 推荐使用具有传统文学感的衬线字体 */
     font-family: 'Noto Serif SC', 'SimSun', 'Songti SC', serif;
@@ -286,4 +344,234 @@ blockquote {
   font-style: italic;
   color: #666;
   background: rgba(0,0,0,0.02);
+}
+
+/* --- 高级版相册卡片 (Premium Album Cards) --- */
+.album-card {
+    background: var(--black-bg);
+    border: 1px solid var(--border-dark);
+    display: flex;
+    flex-direction: column;
+    /* 重点：使用 cubic-bezier 贝塞尔曲线，创造一种“先快后慢”的丝滑阻尼感 */
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.album-card:hover {
+    transform: translateY(-12px);
+    border-color: var(--gold-dim);
+    /* 加入极其克制的暗金幽光阴影 */
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.08);
+}
+
+/* 封面容器 */
+.album-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-dark);
+    background-color: #000; 
+}
+
+/* 封面图片：缓慢的电影级推进 (Ken Burns Effect) */
+.album-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02); /* 初始微放，留出缩放空间 */
+    /* 初始状态压暗、增加一点对比度，显得深沉 */
+    filter: grayscale(70%) brightness(0.55) contrast(1.2);
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                filter 0.8s ease;
+}
+
+.album-card:hover .album-cover img {
+    transform: scale(1.1); /* 鼠标悬浮时，深邃且缓慢地放大 */
+    /* 恢复色彩，但保留一点点暗度，以免喧宾夺主 */
+    filter: grayscale(0%) brightness(0.9) contrast(1.05); 
+}
+
+/* 浮层暗场与渐变 */
+.album-overlay {
+    position: absolute;
+    inset: 0;
+    /* 摒弃纯色遮罩，改用从下至上的暗色渐变，极大地提升高级感 */
+    background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.3) 50%, transparent 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.album-card:hover .album-overlay {
+    opacity: 1;
+}
+
+/* 浮层文字：带呼吸感的上浮出现 */
+.view-text {
+    color: var(--gold);
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 0.4rem;
+    /* 初始状态偏下且透明 */
+    transform: translateY(20px);
+    opacity: 0;
+    /* 重点：动画比底图稍微延迟 0.1s，形成错落有致的层次感 */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s; 
+}
+
+.album-card:hover .view-text {
+    transform: translateY(0); /* 随着鼠标悬浮，缓缓升起 */
+    opacity: 1;
+    border-bottom-color: var(--gold);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); /* 文字发光 */
+}
+
+/* =========================================
+   专属作品集页面 - 严整网格版 (Exhibition Grid)
+   ========================================= */
+
+.portfolio-page {
+    background-color: var(--black-bg);
+}
+
+.portfolio-container {
+    max-width: 1000px; /* 稍微收窄一点总宽度，让图片显得更精致 */
+    margin: 0 auto;
+    padding: 8rem 5% 5rem;
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* --- 影集头部前言 --- */
+.portfolio-header {
+    text-align: center;
+    margin-bottom: 5rem;
+    border-bottom: 1px solid var(--border-dark);
+    padding-bottom: 3rem;
+}
+
+.portfolio-meta {
+    font-size: 0.85rem;
+    color: var(--accent-dim); /* 这里会自动调用你之前选的蓝色/绿色 */
+    font-family: sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.portfolio-title {
+    color: #e0e0e0;
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.portfolio-desc {
+    color: #888;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* --- 章节排版 --- */
+.gallery-chapter {
+    margin-bottom: 6rem; /* 每个色调章节之间拉开巨大间距，增加呼吸感 */
+}
+
+.chapter-title {
+    font-size: 1.5rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--accent-dim);
+    padding-left: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.chapter-title span {
+    font-size: 0.85rem;
+    color: #666;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
+
+.chapter-desc {
+    color: #777;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    padding-left: 1.2rem; /* 和标题对齐 */
+}
+
+/* --- 1. 恢复严整的策展网格 (全彩展示，无滤镜) --- */
+.exhibition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.exhibition-item {
+    position: relative;
+    aspect-ratio: 1 / 1; /* 恢复绝对整齐的正方形排版 */
+    overflow: hidden;
+    cursor: zoom-in; /* 鼠标变成放大镜，暗示可以点击看全图 */
+    border: 1px solid var(--border-dark);
+}
+
+.exhibition-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保证在网格内整齐填满 */
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exhibition-item:hover img {
+    transform: scale(1.04); /* 极缓慢的微放大交互 */
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) { .exhibition-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .exhibition-grid { grid-template-columns: 1fr; } }
+
+
+/* --- 2. 电影级灯箱 (Lightbox) 专属样式 --- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 5, 0.95); /* 极暗的深色背景 */
+    backdrop-filter: blur(10px); /* 背景毛玻璃虚化 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none; /* 默认不可点击 */
+    transition: opacity 0.4s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+    cursor: zoom-out; /* 鼠标变成缩小镜，暗示点击关闭 */
+}
+
+.lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    /* 核心：在灯箱里使用 contain，绝对不裁切，100%保留原图完整比例！ */
+    object-fit: contain; 
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    transform: scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox.active img {
+    transform: scale(1); /* 打开时带有一个轻微的放大弹起效果 */
 }
